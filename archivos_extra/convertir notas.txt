@@ -1,0 +1,9 @@
+Entonces para convertir CUALQUIER mp3/wav a exactamente eso:
+
+ffmpeg -i entrada.mp3 -acodec pcm_u8 -ar 11025 -ac 1 salida.wav
+
+
+
+O si el original ya es WAV:
+
+ffmpeg -i entrada.wav -acodec pcm_u8 -ar 11025 -ac 1 salida.wav
