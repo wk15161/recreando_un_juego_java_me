@@ -5,14 +5,18 @@ import javax.microedition.lcdui.game.*;
 import java.io.IOException;
 import javax.microedition.media.*;
 import java.io.InputStream;
+import javax.microedition.media.control.VolumeControl;
 
 public class MiJuego extends GameCanvas implements Runnable {
-    // Tamaño de cada tile del mapa (en píxeles)
-    private static final int TILE_SIZE = 16;
-
     // Offset del jugador para ajustar el punto de colisión (hitbox)
-    private static final int OFFSET_X = 9;
-    private static final int OFFSET_Y = 24;
+    private static final int OFFSET_X = 4;
+    private static final int OFFSET_Y = 22;
+    
+    int w;
+    int h;
+   
+    int anchoDelNivel;
+    int altoDelNivel;
     
     private int nivelSiguiente=0;
     private static final int totalNiveles = 2;
@@ -24,6 +28,10 @@ public class MiJuego extends GameCanvas implements Runnable {
     private Player musicaFondo;
 
     private Player sonidoZanahoria;
+    
+    private Player sonidoLlave;
+    private Player sonidoCandadoCerrado;
+    private Player sonidoCandadoAbierto;
 
     private Player sonidoMeta;
     
@@ -75,7 +83,9 @@ public class MiJuego extends GameCanvas implements Runnable {
     
     private Sprite desaparecer;
     
+    private Image llaveBronceImagen;
     private Image llavePlataImagen;
+    private Image llaveOroImagen;
 
     // SPRITE ACTUAL
     private Sprite player;
@@ -92,28 +102,42 @@ public class MiJuego extends GameCanvas implements Runnable {
     private int camY;
 
     // TAMAÑO MAPA
-    private final int MAP_W = 20 * 16;
-    private final int MAP_H = 20 * 16;
+    private int MAP_W;
+    private int MAP_H;
 
     // VELOCIDAD
     private int SPEED;
     
-    //INICIO TITLE
-    private static final int TILE_SPAWN = 22;
     
-    //META TITLE
-    private static final int TILE_META = 45;
-
-    //ZANAHORIAS
-    private static final int TILE_ZANAHORIA = 20;
-    private static final int TILE_ZANAHORIA_NO = 21;
+    
+    // Tamaño de cada tile del mapa (en píxeles)
+    private static final int TILE_SIZE = 16;
     
     // TILES SOLIDOS
     private static final int TILE_PARED = 1;
     private static final int TILE_CERCA = 14;
     private static final int TILE_CAMINO = 19;
+    
+    //ZANAHORIAS
+    private static final int TILE_ZANAHORIA = 20;
+    private static final int TILE_ZANAHORIA_NO = 21;
+    
+    //INICIO TITLE
+    private static final int TILE_SPAWN = 22;
+    
+        
     private static final int TILE_LLAVE_PLATEADO = 33;
     private static final int TILE_CANDADO_PLATEADO = 34;
+        
+    private static final int TILE_LLAVE_ORO = 35;
+    private static final int TILE_CANDADO_ORO = 36;
+    
+    private static final int TILE_LLAVE_BRONCE = 37;
+    private static final int TILE_CANDADO_BRONCE = 38;
+    
+       
+    //META TITLE
+    private static final int TILE_META = 45;
 
     public MiJuego() {
 
@@ -154,6 +178,14 @@ public class MiJuego extends GameCanvas implements Runnable {
             musicaFondo = Manager.createPlayer(musica, "audio/midi");
 
             musicaFondo.realize();
+            
+            VolumeControl vc = (VolumeControl) musicaFondo.getControl("VolumeControl");
+
+            if(vc != null){
+                vc.setLevel(16); // 0 a 100
+            }
+
+            
             musicaFondo.setLoopCount(-1);
             musicaFondo.prefetch();
 
@@ -165,6 +197,34 @@ public class MiJuego extends GameCanvas implements Runnable {
 
             sonidoZanahoria.realize();
             sonidoZanahoria.prefetch();
+            
+            
+            
+            InputStream llave = getClass().getResourceAsStream("/llave.wav");
+
+            sonidoLlave = Manager.createPlayer(llave, "audio/X-wav");
+
+            sonidoLlave.realize();
+            sonidoLlave.prefetch();
+            
+            
+            InputStream candadoCerrado = getClass().getResourceAsStream("/candado_cerrado.wav");
+
+            sonidoCandadoCerrado = Manager.createPlayer(candadoCerrado, "audio/X-wav");
+
+            sonidoCandadoCerrado.realize();
+            sonidoCandadoCerrado.prefetch();
+            
+            
+            
+            
+            InputStream candadoAbierto = getClass().getResourceAsStream("/candado_abierto.wav");
+
+            sonidoCandadoAbierto = Manager.createPlayer(candadoAbierto, "audio/X-wav");
+
+            sonidoCandadoAbierto.realize();
+            sonidoCandadoAbierto.prefetch();
+
 
 
 
@@ -189,9 +249,14 @@ public class MiJuego extends GameCanvas implements Runnable {
             nivelSiguiente++;
             if(nivelSiguiente>totalNiveles) nivelSiguiente = 1;
             inicializandoVariables = true;
+            w = 8;
+            h = 5;
+    
             repetirVariasVecesDesaparicion = 3;
             contadordeRepeticionesDeDesaparicion = 0;
+            llaveBronceUsada = false;
             llavePlataUsada = false;
+            llaveOroUsada = false;
             nombreNivel = "Nivel #"+ nivelSiguiente;
             this.textoObjetoPorRecoger = "Zanahorias: ";
             this.textoObjetoPorRecoger = "Estrellas: ";
@@ -218,7 +283,15 @@ public class MiJuego extends GameCanvas implements Runnable {
                     nivel = gd.getNivel_2();
                 break;
             }
-
+            
+            anchoDelNivel = nivel.getColumns();
+            altoDelNivel = nivel.getRows();
+            
+            MAP_W = anchoDelNivel * 16;
+            MAP_H = altoDelNivel * 16;
+            
+            System.out.println("ancho de nivel es: "+anchoDelNivel);
+            System.out.println("alto de nivel es: "+altoDelNivel);
             
             // POSICION
             x = 40;
@@ -268,8 +341,14 @@ public class MiJuego extends GameCanvas implements Runnable {
             //obtener SPRITE DE LA META
             meta =gd.getBobby_meta();
             
+            //obtener imagen de llave bronce
+            llaveBronceImagen = Image.createImage("/llave_bronce.png");
+            
             //obtener imagen de llave plateada
             llavePlataImagen = Image.createImage("/llave_plata.png");
+            
+            //obtener imagen de llave oro
+            llaveOroImagen = Image.createImage("/llave_oro.png");
 
             // DIRECCION INICIAL
             player = aparecer;
@@ -322,6 +401,86 @@ public class MiJuego extends GameCanvas implements Runnable {
         }
     }
     
+    
+    
+    
+    
+    
+    private void iniciarSonidoLlave(){
+        try{
+          sonidoLlave.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void detenerSonidoLlave(){
+        try{
+          sonidoLlave.stop();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void iniciarSonidoCandadoCerrado(){
+        try{
+          sonidoCandadoCerrado.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void detenerSonidoCandadoCerrado(){
+        try{
+          sonidoCandadoCerrado.stop();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    private void iniciarSonidoCandadoAbierto(){
+        try{
+          sonidoCandadoAbierto.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void detenerSonidoCandadoAbierto(){
+        try{
+          sonidoCandadoAbierto.stop();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private void iniciarSonidoMeta(){
         try{
           sonidoMeta.start();
@@ -350,6 +509,33 @@ public class MiJuego extends GameCanvas implements Runnable {
                 sonidoZanahoria.close();
                 sonidoZanahoria = null;
             }
+            
+            
+
+            if(sonidoLlave != null){
+
+                sonidoLlave.close();
+                sonidoLlave = null;
+            }            
+            
+            
+            if(sonidoCandadoCerrado != null){
+
+                sonidoCandadoCerrado.close();
+                sonidoCandadoCerrado = null;
+            }    
+            
+      
+            
+            if(sonidoCandadoAbierto != null){
+
+                sonidoCandadoAbierto.close();
+                sonidoCandadoAbierto = null;
+            }             
+            
+            
+            
+            
 
             if(sonidoMeta != null){
 
@@ -522,8 +708,8 @@ public class MiJuego extends GameCanvas implements Runnable {
     //Detectar dónde debe aparecer el personaje
     private void buscarSpawn() {
 
-        for (int y = 0; y < 20; y++) {
-            for (int x = 0; x < 20; x++) {
+        for (int y = 0; y < altoDelNivel; y++) {
+            for (int x = 0; x < anchoDelNivel; x++) {
 
                 int tile = nivel.getCell(x, y);
 
@@ -543,8 +729,8 @@ public class MiJuego extends GameCanvas implements Runnable {
     //Detectar cuántaz zanahorias es necesario recoger
     private void contarTotalDeZanahoriasPorRecoger() {
 
-        for (int y = 0; y < 20; y++) {
-            for (int x = 0; x < 20; x++) {
+        for (int y = 0; y < altoDelNivel; y++) {
+            for (int x = 0; x < anchoDelNivel; x++) {
 
                 int tile = nivel.getCell(x, y);
 
@@ -564,18 +750,34 @@ public class MiJuego extends GameCanvas implements Runnable {
 
         int tile = nivel.getCell(tileX, tileY);
         
+        if (tile == TILE_LLAVE_BRONCE && !tieneLlaveBronce) {
+            this.iniciarSonidoLlave();
+            tieneLlaveBronce = true;
+            nivel.setCell(tileX, tileY, TILE_CAMINO); // desaparece la llave
+        }
+        
         if (tile == TILE_LLAVE_PLATEADO && !tieneLlavePlata) {
+            this.iniciarSonidoLlave();
             tieneLlavePlata = true;
+            nivel.setCell(tileX, tileY, TILE_CAMINO); // desaparece la llave
+        }
+        
+        if (tile == TILE_LLAVE_ORO && !tieneLlaveOro) {
+            this.iniciarSonidoLlave();
+            tieneLlaveOro = true;
             nivel.setCell(tileX, tileY, TILE_CAMINO); // desaparece la llave
         }
     }
     
     
+    
+    
+    
     private void verificarSiActivarMeta(){
 
-        for(int _y = 0; _y < 20; _y++){
+        for(int _y = 0; _y < altoDelNivel; _y++){
 
-            for(int _x = 0; _x < 20; _x++){
+            for(int _x = 0; _x < anchoDelNivel; _x++){
 
                 int tile = nivel.getCell(_x, _y);
 
@@ -618,6 +820,11 @@ public class MiJuego extends GameCanvas implements Runnable {
         }
     }
     
+    
+    
+    
+    
+    
     private boolean verificarCandados(int px, int py){
         int tileX = (px + OFFSET_X) / TILE_SIZE;
         int tileY = (py + OFFSET_Y) / TILE_SIZE;
@@ -625,14 +832,42 @@ public class MiJuego extends GameCanvas implements Runnable {
         int tile = nivel.getCell(tileX, tileY);
         
         //Si nosotros tenemos la llave lista
-        if (tile == TILE_CANDADO_PLATEADO && tieneLlavePlata && !llavePlataUsada) {
-            nivel.setCell(tileX, tileY, TILE_CAMINO); // se abre 
-            llavePlataUsada = true;
-            tieneLlavePlata = false;
-            return true;
+        if (tile == TILE_CANDADO_BRONCE) {
+            if(tieneLlaveBronce && !llaveBronceUsada){
+                this.iniciarSonidoCandadoAbierto();
+                nivel.setCell(tileX, tileY, TILE_CAMINO); // se abre 
+                llaveBronceUsada = true;
+                tieneLlaveBronce = false;
+                return true;   
+            }
+            this.iniciarSonidoCandadoCerrado();
+        }
+        if (tile == TILE_CANDADO_PLATEADO) {
+            if(tieneLlavePlata && !llavePlataUsada){
+                this.iniciarSonidoCandadoAbierto();
+                nivel.setCell(tileX, tileY, TILE_CAMINO); // se abre 
+                llavePlataUsada = true;
+                tieneLlavePlata = false;
+                return true;    
+            }
+            this.iniciarSonidoCandadoCerrado();
+            
+        }
+        if (tile == TILE_CANDADO_ORO) {
+            if(tieneLlaveOro && !llaveOroUsada){
+                this.iniciarSonidoCandadoAbierto();
+                nivel.setCell(tileX, tileY, TILE_CAMINO); // se abre 
+                llaveOroUsada = true;
+                tieneLlaveOro = false;
+                return true;    
+            }
+            this.iniciarSonidoCandadoCerrado();
+            
         }
         return false;
     }
+    
+    
     
     private void verificarZanahorias(int px, int py){
         int tileX = (px + OFFSET_X) / TILE_SIZE;
@@ -648,20 +883,23 @@ public class MiJuego extends GameCanvas implements Runnable {
         }
 
     }
+    
+    
 
     private boolean colision(int px, int py) {
 
         int tileX = (px+OFFSET_X) / TILE_SIZE;
-        int tileY = (py+OFFSET_Y) / TILE_SIZE;
+        //int tileY = (py+OFFSET_Y) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
 
         int tile = nivel.getCell(tileX, tileY);
         
         //VERIFICAMOS ZANAHORIAS
         verificarZanahorias(px,py);
         //verificar si hemos tomando una llave
-        verificarSiNosotrosTomamosUnaLlave(x, y - SPEED);
+        verificarSiNosotrosTomamosUnaLlave(px,py);
         
-        verificarSiTocamosLaMeta(x, y - SPEED);
+        verificarSiTocamosLaMeta(px,py);
         
         if(verificarCandados(px,py)) return true;
         
@@ -678,6 +916,67 @@ public class MiJuego extends GameCanvas implements Runnable {
     }
     
     
+    
+    
+    private boolean colision_talvez_mas_adelante(int px, int py) {
+
+        int left = px + OFFSET_X;
+        int right = left + w;
+        int top = py + OFFSET_Y;
+        int bottom = top + h;
+
+        int tile;
+
+        // esquina superior izquierda
+        tile = nivel.getCell(left / TILE_SIZE, top / TILE_SIZE);
+        if ((tile >= 0 && tile <= 18) || tile == 34 || tile == 36 || tile == 38
+                || tile == TILE_PARED || tile == TILE_CERCA || tile == TILE_CANDADO_PLATEADO)
+            return true;
+
+        // esquina superior derecha
+        tile = nivel.getCell(right / TILE_SIZE, top / TILE_SIZE);
+        if ((tile >= 0 && tile <= 18) || tile == 34 || tile == 36 || tile == 38
+                || tile == TILE_PARED || tile == TILE_CERCA || tile == TILE_CANDADO_PLATEADO)
+            return true;
+
+        // esquina inferior izquierda
+        tile = nivel.getCell(left / TILE_SIZE, bottom / TILE_SIZE);
+        if ((tile >= 0 && tile <= 18) || tile == 34 || tile == 36 || tile == 38
+                || tile == TILE_PARED || tile == TILE_CERCA || tile == TILE_CANDADO_PLATEADO)
+            return true;
+
+        // esquina inferior derecha
+        tile = nivel.getCell(right / TILE_SIZE, bottom / TILE_SIZE);
+        if ((tile >= 0 && tile <= 18) || tile == 34 || tile == 36 || tile == 38
+                || tile == TILE_PARED || tile == TILE_CERCA || tile == TILE_CANDADO_PLATEADO)
+            return true;
+
+        verificarZanahorias(px, py);
+        verificarSiNosotrosTomamosUnaLlave(x, y - SPEED);
+        verificarSiTocamosLaMeta(x, y - SPEED);
+
+        if (verificarCandados(px, py)) return true;
+
+        return false;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // =========================================
     // DIBUJAR
@@ -686,6 +985,7 @@ public class MiJuego extends GameCanvas implements Runnable {
     private void dibujarColisionDebug(int px, int py) {
         System.out.println("x es: "+ x+"\nand y es: "+y);
         int tileX = (px+OFFSET_X) / TILE_SIZE;
+        //int tileY = (py+OFFSET_Y) / TILE_SIZE;
         int tileY = (py+OFFSET_Y) / TILE_SIZE;
 
         int cx = tileX * TILE_SIZE;
@@ -694,6 +994,90 @@ public class MiJuego extends GameCanvas implements Runnable {
         g.setColor(0xFF0000);
 
         g.drawRect(cx, cy, TILE_SIZE, TILE_SIZE);
+    }
+    
+    private void dibujarColisionDebug_talvez_mas_adelante(int px, int py) {
+
+        System.out.println("x es: " + x + "\nand y es: " + y);
+
+        int cx = px + OFFSET_X;
+        int cy = py + OFFSET_Y;
+
+        g.setColor(0xFF0000);
+        g.drawRect(cx, cy, w, h);
+    }
+    
+    private void verificarSiTenemosCiertaLlave(){
+
+        int x = getWidth() - 24;
+        int y = 8;
+        int margen = 6;
+
+        if(tieneLlaveBronce && !llaveBronceUsada){
+
+            g.drawImage(
+                llaveBronceImagen,
+                x,
+                y,
+                Graphics.TOP | Graphics.LEFT
+            );
+
+            y += llaveBronceImagen.getHeight() + margen;
+        }
+
+        if(tieneLlavePlata && !llavePlataUsada){
+
+            g.drawImage(
+                llavePlataImagen,
+                x,
+                y,
+                Graphics.TOP | Graphics.LEFT
+            );
+
+            y += llavePlataImagen.getHeight() + margen;
+        }
+
+        if(tieneLlaveOro && !llaveOroUsada){
+
+            g.drawImage(
+                llaveOroImagen,
+                x,
+                y,
+                Graphics.TOP | Graphics.LEFT
+            );
+        }
+    }
+    
+    private void verificarSiTenemosCiertaLlaveddd(){
+        if(tieneLlaveBronce && !llaveBronceUsada){
+
+            g.drawImage(
+                llaveBronceImagen,
+                getWidth() - 20,
+                5,
+                Graphics.TOP | Graphics.LEFT
+            );
+        }
+        
+        if(tieneLlavePlata && !llavePlataUsada){
+
+            g.drawImage(
+                llavePlataImagen,
+                getWidth() - 20,
+                5,
+                Graphics.TOP | Graphics.LEFT
+            );
+        }
+        
+        if(tieneLlaveOro && !llaveOroUsada){
+
+            g.drawImage(
+                llaveOroImagen,
+                getWidth() - 20,
+                5,
+                Graphics.TOP | Graphics.LEFT
+            );
+        }
     }
 
     private void render() {
@@ -754,15 +1138,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             Graphics.TOP | Graphics.LEFT
         );
         
-        if(tieneLlavePlata && !llavePlataUsada){
-
-            g.drawImage(
-                llavePlataImagen,
-                getWidth() - 20,
-                5,
-                Graphics.TOP | Graphics.LEFT
-            );
-        }
+        verificarSiTenemosCiertaLlave();
 
          if(modoAparecer || !desaparecerMensajeNivel){
              

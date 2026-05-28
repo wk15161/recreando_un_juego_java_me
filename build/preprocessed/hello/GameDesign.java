@@ -23,29 +23,29 @@ public class GameDesign {
     private Sprite bobby_derecha;
     public int bobby_derechaseq001Delay = 40;
     public int[] bobby_derechaseq001 = {3, 4, 5, 6, 7, 0, 1, 2};
-    private Image bobby_left;
     private Sprite bobby_izquierda;
     public int bobby_izquierdaseq001Delay = 40;
     public int[] bobby_izquierdaseq001 = {3, 4, 5, 6, 7, 0, 1, 2};
+    private Image bobby_left;
     private Image bobby_down;
-    private Sprite bobby_abajo;
-    public int bobby_abajoseq001Delay = 40;
-    public int[] bobby_abajoseq001 = {3, 4, 5, 6, 7, 0, 1, 2};
     private Image bobby_up;
     private Sprite bobby_arriba;
     public int bobby_arribaseq001Delay = 40;
     public int[] bobby_arribaseq001 = {3, 4, 5, 6, 7, 0, 1, 2};
-    private Image bobby_fade;
+    private Sprite bobby_abajo;
+    public int bobby_abajoseq001Delay = 40;
+    public int[] bobby_abajoseq001 = {3, 4, 5, 6, 7, 0, 1, 2};
     private Sprite bobby_aparecer;
     public int bobby_aparecerseq001Delay = 100;
     public int[] bobby_aparecerseq001 = {8, 7, 6, 5, 4, 3, 2, 1, 0};
+    private Image bobby_fade;
+    private Sprite bobby_desaparec;
+    public int bobby_desaparecseq001Delay = 100;
+    public int[] bobby_desaparecseq001 = {0, 1, 2, 3, 4, 5, 6, 7, 8};
     private Image tile_finish;
     private Sprite bobby_meta;
     public int bobby_metaseq001Delay = 30;
     public int[] bobby_metaseq001 = {0, 1, 2, 3};
-    private Sprite bobby_desaparec;
-    public int bobby_desaparecseq001Delay = 100;
-    public int[] bobby_desaparecseq001 = {0, 1, 2, 3, 4, 5, 6, 7, 8};
     private TiledLayer nivel_2;
     private Image hud;
     //</editor-fold>//GEN-END:|fields|0|
@@ -261,32 +261,32 @@ public class GameDesign {
     public TiledLayer getNivel_2() throws java.io.IOException {//GEN-BEGIN:|45-getter|0|45-preInit
         if (nivel_2 == null) {//GEN-END:|45-getter|0|45-preInit
             // write pre-init user code here
-            nivel_2 = new TiledLayer(20, 20, getTileset(), 16, 16);//GEN-BEGIN:|45-getter|1|45-midInit
+            nivel_2 = new TiledLayer(22, 20, getTileset(), 16, 16);//GEN-BEGIN:|45-getter|1|45-midInit
             int[][] tiles = {
-                { 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 11, 11, 11, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 12, 12, 12, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 22 },
-                { 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 19 },
-                { 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3 },
-                { 2, 15, 13, 13, 13, 13, 13, 13, 13, 34, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 20, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 15, 16, 19, 11, 11, 19, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 20, 19, 19, 19, 19, 20, 19, 12, 12, 14, 19, 19, 19, 3 },
-                { 2, 19, 19, 20, 19, 20, 20, 19, 19, 19, 19, 20, 20, 19, 19, 14, 19, 19, 19, 3 },
-                { 2, 19, 19, 20, 20, 20, 19, 19, 19, 19, 19, 19, 20, 20, 20, 14, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 19, 19, 14, 19, 19, 19, 3 },
-                { 45, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3 },
-                { 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3 },
-                { 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 33, 3 },
-                { 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1 }
+                { 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 35, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 11, 11, 11, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 12, 12, 12, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 22, 1 },
+                { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 19, 1 },
+                { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 15, 13, 13, 13, 13, 13, 13, 13, 34, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 20, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 15, 16, 36, 11, 11, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 20, 19, 19, 19, 19, 20, 19, 12, 12, 14, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 20, 19, 20, 20, 19, 19, 19, 19, 20, 20, 19, 19, 14, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 20, 20, 20, 19, 19, 19, 19, 19, 19, 20, 20, 20, 14, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 19, 19, 14, 19, 19, 19, 3, 1 },
+                { 1, 45, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 3, 1 },
+                { 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 33, 3, 1 },
+                { 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1 }
             };//GEN-END:|45-getter|1|45-midInit
             // write mid-init user code here
             for (int row = 0; row < 20; row++) {//GEN-BEGIN:|45-getter|2|45-postInit
-                for (int col = 0; col < 20; col++) {
+                for (int col = 0; col < 22; col++) {
                     nivel_2.setCell(col, row, tiles[row][col]);
                 }
             }
