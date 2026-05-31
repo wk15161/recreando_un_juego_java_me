@@ -14,18 +14,48 @@ public class MiJuego extends GameCanvas implements Runnable {
     
     int w;
     int h;
+    
+    int contandoCantidadDeVecesEnElCamino;
+    final int X_IMAGEN = 0;
+    final int X_NUMERO = 26;
+    
+    private int ultimoCaminoConvertido;
+    
+    
+    private int direccionEntradaCamino;
+
+    private static int ENTRA_IZQUIERDA;
+    private static int ENTRA_DERECHA;
+    private static int ENTRA_ARRIBA;
+    private static int ENTRA_ABAJO;
+    
+    
+    private int tipoDeTilesPngUtilizado;
+    
+    
+    
    
     int anchoDelNivel;
     int altoDelNivel;
     
+    private boolean gameOver;
+    private boolean bobbyEncimaDeTrampa;
+    
+    int trampaX;
+    int trampaY;
+    
     private int nivelSiguiente=0;
-    private static final int totalNiveles = 2;
+    private static final int totalNiveles = 3;
     
     private String textoObjetoPorRecoger;
+    private String textoObjetoPorDejar;
     private String textoReiniciarNivel;
     private String textoReiniciarNivel1;
+    private String textoReiniciarNivel2;
+    private String textoReiniciarNivel3;
     private int colorTexto;
     private Player musicaFondo;
+    private Player sonidoMuerte;
 
     private Player sonidoZanahoria;
     
@@ -64,6 +94,12 @@ public class MiJuego extends GameCanvas implements Runnable {
     
     private int totalZanahoriasRecogerEnNivel;
     private boolean todasLasZanahoriasRecogidas;
+    
+    private int totalHuevosDejarEnNivel;
+    private boolean todosLosHuevosDejados;
+    
+    private boolean mostrarMensajeCantidadZanahoriasPorRecoger;
+    private boolean mostrarMensajeCantidadHuevosPorDejar;
 
     private Graphics g;
     private boolean run;
@@ -83,9 +119,23 @@ public class MiJuego extends GameCanvas implements Runnable {
     
     private Sprite desaparecer;
     
+    private Sprite muriendo;
+    
     private Image llaveBronceImagen;
     private Image llavePlataImagen;
     private Image llaveOroImagen;
+    
+    
+    
+    //posiblemente se utilizará en algún otro momento cuando usemos otro tiles donde tengamos más objetos por dejar
+    //en el mapa
+    private Image imagencitaObjetoPorDejar;
+    
+    //necesarios
+    private Image imagencitaObjetoPorRecoger;
+    private Image imagencitaZanahoria;
+    private Image imagencitaHuevo;
+    private Image imagencitaEstrella;
 
     // SPRITE ACTUAL
     private Sprite player;
@@ -126,6 +176,10 @@ public class MiJuego extends GameCanvas implements Runnable {
     private static final int TILE_SPAWN = 22;
     
         
+    private static final int TILE_BOTON_PARA_PULSAR = 23;
+        
+    private static final int TILE_BOTON_PARA_NO_PULSAR = 24;
+        
     private static final int TILE_LLAVE_PLATEADO = 33;
     private static final int TILE_CANDADO_PLATEADO = 34;
         
@@ -135,9 +189,46 @@ public class MiJuego extends GameCanvas implements Runnable {
     private static final int TILE_LLAVE_BRONCE = 37;
     private static final int TILE_CANDADO_BRONCE = 38;
     
+    private static final int TILE_TRAMPA_SI_ACTIVA =32;
+    private static final int TILE_TRAMPA_NO_ACTIVA =31;
+    
        
     //META TITLE
     private static final int TILE_META = 45;
+    
+    
+    
+    //VARIABLES PARA LOS CAMINITOS METÁLICOS
+    private boolean bobbyEncimaDeCamino;
+
+    private int caminoX;
+    private int caminoY;
+
+    
+
+    
+    private static final int TILE_CAMINO_HORIZONTAL = 29;
+
+    private static final int TILE_CAMINO_VERTICAL = 30;
+    
+    private static final int TILE_CAMINO_ESQUINA_1 = 25;
+
+    private static final int TILE_CAMINO_ESQUINA_2 = 26;
+
+    private static final int TILE_CAMINO_ESQUINA_3 = 27;
+
+    private static final int TILE_CAMINO_ESQUINA_4 = 28;
+    
+    
+    
+    //En caso de que carguemos el tileset_normal
+    private static int TILE_SIN_HUEVO = 46;
+    private static int TILE_CON_HUEVO = 47;
+    
+    //En caso de que carguemos el tileset_invierno
+    private static int TILE_ESPEJO_1 = 46;
+    private static int TILE_ESPEJO_2 = 47;
+    
 
     public MiJuego() {
 
@@ -189,6 +280,13 @@ public class MiJuego extends GameCanvas implements Runnable {
             musicaFondo.setLoopCount(-1);
             musicaFondo.prefetch();
 
+            
+            InputStream muertito = getClass().getResourceAsStream("/death.mid");
+
+            sonidoMuerte = Manager.createPlayer(muertito, "audio/midi");
+
+            sonidoMuerte.realize();
+            sonidoMuerte.prefetch();
 
 
             InputStream zanahoria = getClass().getResourceAsStream("/carrot.wav");
@@ -251,6 +349,37 @@ public class MiJuego extends GameCanvas implements Runnable {
             inicializandoVariables = true;
             w = 8;
             h = 5;
+            
+            trampaX = -1;
+            trampaY = -1;
+            
+            gameOver = false;
+            bobbyEncimaDeTrampa = false;
+            
+            
+            
+            //VARIABLES PARA LOS CAMINITOS METÁLICOS
+            bobbyEncimaDeCamino = false;
+
+            caminoX = -1;
+            caminoY = -1;
+
+            mostrarMensajeCantidadZanahoriasPorRecoger = false;
+            mostrarMensajeCantidadHuevosPorDejar = false;
+            
+            contandoCantidadDeVecesEnElCamino = 0;
+            
+            
+            direccionEntradaCamino = 0;
+
+            ENTRA_IZQUIERDA = 1;
+            ENTRA_DERECHA   = 2;
+            ENTRA_ARRIBA    = 3;
+            ENTRA_ABAJO     = 4;
+            
+            
+            ultimoCaminoConvertido = -1;
+            
     
             repetirVariasVecesDesaparicion = 3;
             contadordeRepeticionesDeDesaparicion = 0;
@@ -258,12 +387,12 @@ public class MiJuego extends GameCanvas implements Runnable {
             llavePlataUsada = false;
             llaveOroUsada = false;
             nombreNivel = "Nivel #"+ nivelSiguiente;
-            this.textoObjetoPorRecoger = "Zanahorias: ";
-            this.textoObjetoPorRecoger = "Estrellas: ";
+            this.textoObjetoPorDejar = "Huevos: ";
             this.textoReiniciarNivel = "Nivel #"+ nivelSiguiente+ " completo :D";
             this.textoReiniciarNivel1 = "Presione boton del centro";
-            this.colorTexto = 0xFFFFFF;
-            this.colorTexto = 0x000000;
+            this.textoReiniciarNivel2 = "Has muerto :(";
+            this.textoReiniciarNivel3 = "Reiniciar..";
+            
             desaparecerMensajeNivel = false;
             moviendo = false;
             duracionMensaje = 500;
@@ -282,10 +411,19 @@ public class MiJuego extends GameCanvas implements Runnable {
                 case 2:
                     nivel = gd.getNivel_2();
                 break;
+                case 3:
+                    nivel = gd.getNivel_3();
+                break;
             }
+            
             
             anchoDelNivel = nivel.getColumns();
             altoDelNivel = nivel.getRows();
+            
+            //MUY IMPORTANTE (PARA SABER SI ESTAMOS UTILIZANDO EL TILESET NORMAL O EL INVERNAL)
+            //PUESTO QUE CAMBIAN ALGUNOS TILES
+            tipoDeTilesPngUtilizado = gd.getTipoTilesActual();
+            System.out.println("tipo de tiles cargado png es: "+tipoDeTilesPngUtilizado);
             
             MAP_W = anchoDelNivel * 16;
             MAP_H = altoDelNivel * 16;
@@ -318,8 +456,30 @@ public class MiJuego extends GameCanvas implements Runnable {
             totalZanahoriasRecogerEnNivel = 0;
             todasLasZanahoriasRecogidas = false;
             
+            totalHuevosDejarEnNivel = 0;
+            todosLosHuevosDejados = false;
+            
+            imagencitaZanahoria = Image.createImage("/zanahoria.png");
+            imagencitaHuevo = Image.createImage("/huevo.png");
+            imagencitaEstrella = Image.createImage("/estrella.png");
+            
             //contar cantidad de zanahorias que es necesario recoger en el nivel
             contarTotalDeZanahoriasPorRecoger();
+            
+            //si el tiles png es el normal, entendemos que si es necesario contar la cantidad de huevos a dejar
+            //en caso de que ese tiles haya sido colocando en el nivel verdad
+            if(this.tipoDeTilesPngUtilizado == 1){
+                contarTotalDeHuevosPorDejar();
+                this.textoObjetoPorRecoger = "Zanahorias: ";
+                this.colorTexto = 0xFFFFFF;
+                imagencitaObjetoPorRecoger = this.imagencitaZanahoria;
+                
+            }
+            if(this.tipoDeTilesPngUtilizado == 2){
+                this.textoObjetoPorRecoger = "Estrellas: ";
+                this.colorTexto = 0x000000;
+                imagencitaObjetoPorRecoger = this.imagencitaEstrella;
+            }
             
             //Saber dónde debe aparecer el personaje al inicio del juego
             buscarSpawn();
@@ -337,6 +497,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             
             aparecer = gd.getBobby_aparecer();
             desaparecer = gd.getBobby_desaparec();
+            muriendo = gd.getBobby_muerto();
             
             //obtener SPRITE DE LA META
             meta =gd.getBobby_meta();
@@ -349,6 +510,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             
             //obtener imagen de llave oro
             llaveOroImagen = Image.createImage("/llave_oro.png");
+            
 
             // DIRECCION INICIAL
             player = aparecer;
@@ -380,6 +542,22 @@ public class MiJuego extends GameCanvas implements Runnable {
     private void detenerMusicaFondo(){
         try{
           musicaFondo.stop();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void iniciarSonidoMuerte(){
+        try{
+          sonidoMuerte.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void detenerSonidoMuerte(){
+        try{
+          sonidoMuerte.stop();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -503,6 +681,11 @@ public class MiJuego extends GameCanvas implements Runnable {
                 musicaFondo.close();
                 musicaFondo = null;
             }
+            
+            if(sonidoMuerte != null){
+                sonidoMuerte.close();
+                sonidoMuerte = null;
+            }
 
             if(sonidoZanahoria != null){
 
@@ -556,8 +739,13 @@ public class MiJuego extends GameCanvas implements Runnable {
         int key = getKeyStates();
 
         moviendo = false;
-
-        if(!todasLasZanahoriasRecogidas && !modoAparecer){
+        
+        if(todasLasZanahoriasRecogidas || todosLosHuevosDejados || modoAparecer || gameOver){
+            if ((key & FIRE_PRESSED) != 0) {
+                //Usado para reiniciar nivel o cambiar nivel
+                inicializarVariables();
+            }
+        }else{
                 // =====================================
             // IZQUIERDA
             // =====================================
@@ -578,7 +766,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             // DERECHA
             // =====================================
 
-            if ((key & RIGHT_PRESSED) != 0) {
+            else if ((key & RIGHT_PRESSED) != 0) {
 
                 player = right;
 
@@ -592,7 +780,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             // ARRIBA
             // =====================================
 
-            if ((key & UP_PRESSED) != 0) {
+            else if ((key & UP_PRESSED) != 0) {
 
                 player = up;
 
@@ -607,7 +795,7 @@ public class MiJuego extends GameCanvas implements Runnable {
             // ABAJO
             // =====================================
 
-            if ((key & DOWN_PRESSED) != 0) {
+            else if ((key & DOWN_PRESSED) != 0) {
 
                 player = down;
 
@@ -617,11 +805,6 @@ public class MiJuego extends GameCanvas implements Runnable {
 
                 moviendo = true;
             }
-        }else{
-            if ((key & FIRE_PRESSED) != 0) {
-                //Usado para reiniciar nivel o cambiar nivel
-                inicializarVariables();
-            }
         }
         
 
@@ -629,12 +812,28 @@ public class MiJuego extends GameCanvas implements Runnable {
         // ANIMACION
         // =====================================
 
-        if (moviendo) {
-
+        if ((!gameOver ||!todasLasZanahoriasRecogidas ||!todosLosHuevosDejados) && moviendo) {
             player.nextFrame();
 
         } else {
-            if(todasLasZanahoriasRecogidas){
+            if(gameOver){
+                System.out.println("game oveeeeeeeeeeeeeeeeeeeeeeeer");
+                moviendo = false;
+                if(player.getFrame() < player.getFrameSequenceLength() - 1){
+
+                       player.nextFrame();
+
+                }else{
+                     contadordeRepeticionesDeDesaparicion++;
+                     if(contadordeRepeticionesDeDesaparicion == repetirVariasVecesDesaparicion){
+                          nivelTerminado = true;
+                     }
+                    
+                        //player = down;
+                        //modoAparecer = false;
+                }
+                 
+            }else if(todasLasZanahoriasRecogidas && todosLosHuevosDejados){
                 moviendo = false;
                  if(player.getFrame() < player.getFrameSequenceLength() - 1){
 
@@ -672,13 +871,14 @@ public class MiJuego extends GameCanvas implements Runnable {
         // ACTUALIZAR POSICION
         // =====================================
         
-        if(!todasLasZanahoriasRecogidas){
+        if(!todasLasZanahoriasRecogidas && !todosLosHuevosDejados){
             down.setPosition(x, y);
             up.setPosition(x, y);
             left.setPosition(x, y);
             right.setPosition(x, y);
             aparecer.setPosition(x,y);
-            desaparecer.setPosition(x,y);   
+            desaparecer.setPosition(x,y);  
+            muriendo.setPosition(x,y);
         }
 
         // =====================================
@@ -736,10 +936,34 @@ public class MiJuego extends GameCanvas implements Runnable {
 
                 if (tile == TILE_ZANAHORIA) { // TILE DE INICIO
                     totalZanahoriasRecogerEnNivel++;
+                    
+                    if(!mostrarMensajeCantidadZanahoriasPorRecoger){
+                      mostrarMensajeCantidadZanahoriasPorRecoger = true;  
+                    }                   
+                    
                 }
             }
         }
-    }    
+    }  
+    
+    
+    //Detectar cuántos huevos es necesario dejar
+    private void contarTotalDeHuevosPorDejar() {
+
+        for (int y = 0; y < altoDelNivel; y++) {
+            for (int x = 0; x < anchoDelNivel; x++) {
+
+                int tile = nivel.getCell(x, y);
+
+                if (tile == TILE_SIN_HUEVO) {
+                    totalHuevosDejarEnNivel++;
+                    if(!mostrarMensajeCantidadHuevosPorDejar){
+                      mostrarMensajeCantidadHuevosPorDejar = true;  
+                    }
+                }
+            }
+        }
+    }
     
     
     
@@ -783,7 +1007,7 @@ public class MiJuego extends GameCanvas implements Runnable {
 
                 if(tile == TILE_META){
 
-                    if(this.totalZanahoriasRecogerEnNivel == 0){
+                    if(this.totalZanahoriasRecogerEnNivel == 0 && this.totalHuevosDejarEnNivel == 0){
 
                         meta.nextFrame();
                         
@@ -809,12 +1033,91 @@ public class MiJuego extends GameCanvas implements Runnable {
         int tile = nivel.getCell(tileX, tileY);
         
         //Si nosotros tocamos la meta,
-        if (tile == TILE_META && totalZanahoriasRecogerEnNivel == 0 && !todasLasZanahoriasRecogidas) {
+        if (tile == TILE_META && totalZanahoriasRecogerEnNivel == 0 && !todasLasZanahoriasRecogidas && totalHuevosDejarEnNivel == 0 && !todosLosHuevosDejados) {
             this.detenerMusicaFondo();
             this.iniciarSonidoMeta();
             moviendo = false;
             todasLasZanahoriasRecogidas = true;
+            todosLosHuevosDejados = true;
+            mostrarMensajeCantidadZanahoriasPorRecoger = false;
+            mostrarMensajeCantidadHuevosPorDejar = false;
             player = desaparecer;
+            player.setFrame(0);
+            // FRAME QUIETO
+        }
+    }
+    
+    
+    
+    private void verificarSiTocamosUnaTrampaNoActiva(int px, int py){
+        int tileX = (px + OFFSET_X) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
+
+        int tile = nivel.getCell(tileX, tileY);
+        
+        //Si nosotros tocamos UNA TRAMPA NO ACTIVA, SE CAMBIA POR UN TILE DE TRAMPA ACTIVA
+        if (tile == TILE_TRAMPA_NO_ACTIVA) {
+
+            if (bobbyEncimaDeTrampa &&
+                (tileX != trampaX || tileY != trampaY)) {
+
+                nivel.setCell(
+                    trampaX,
+                    trampaY,
+                    TILE_TRAMPA_SI_ACTIVA
+                );
+            }
+
+            bobbyEncimaDeTrampa = true;
+
+            trampaX = tileX;
+            trampaY = tileY;
+        }
+        
+        
+        
+        if (bobbyEncimaDeTrampa) {
+
+            int tileActual = nivel.getCell(tileX, tileY);
+
+            if (tileActual != TILE_TRAMPA_NO_ACTIVA) {
+
+                nivel.setCell(
+                    trampaX,
+                    trampaY,
+                    TILE_TRAMPA_SI_ACTIVA
+                );
+
+                bobbyEncimaDeTrampa = false;
+
+                trampaX = -1;
+                trampaY = -1;
+            }
+        }
+        
+        
+        
+        
+        
+        
+    }
+    
+    private void verificarSiTocamosUnaTrampaSiActiva(int px, int py){
+        int tileX = (px + OFFSET_X) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
+
+        int tile = nivel.getCell(tileX, tileY);
+        
+        //Si nosotros tocamos la meta,
+        if (tile == TILE_TRAMPA_SI_ACTIVA &&  !gameOver) {
+            nivelSiguiente--;
+            mostrarMensajeCantidadZanahoriasPorRecoger = false;
+            mostrarMensajeCantidadHuevosPorDejar = false;
+            this.detenerMusicaFondo();
+            this.iniciarSonidoMuerte();
+            moviendo = false;
+            gameOver = true;
+            player = muriendo;
             player.setFrame(0);
             // FRAME QUIETO
         }
@@ -885,14 +1188,56 @@ public class MiJuego extends GameCanvas implements Runnable {
     }
     
     
+    private void verificarHuevos(int px, int py){
+        int tileX = (px + OFFSET_X) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
+
+        int tile = nivel.getCell(tileX, tileY);
+        
+        //Si nosotros hemos pasado por una zona donde se debe dejar un juego, reducir el contador
+        if (tile == TILE_SIN_HUEVO) {
+            iniciarSonidoZanahoria();
+            nivel.setCell(tileX, tileY, TILE_CON_HUEVO); // se coloca icono de zanahoria vacia 
+            this.totalHuevosDejarEnNivel--;
+        }
+
+    }
+    
+    private void verificarSiPulsamosBoton(int px, int py){
+        int tileX = (px + OFFSET_X) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
+
+        int tile = nivel.getCell(tileX, tileY);
+        
+        //Si nosotros hemos pasado por una zanahoria, colocar un contador
+        if (tile == TILE_BOTON_PARA_PULSAR) {
+            cambiarTodosLosCaminos();
+            nivel.setCell(tileX, tileY, TILE_BOTON_PARA_NO_PULSAR); // se coloca icono de botón no pulsar 
+        }
+
+    }
+    
 
     private boolean colision(int px, int py) {
 
         int tileX = (px+OFFSET_X) / TILE_SIZE;
         //int tileY = (py+OFFSET_Y) / TILE_SIZE;
         int tileY = (py + OFFSET_Y) / TILE_SIZE;
+        
+        
+        
+        
+        
+        
+        
+        
 
         int tile = nivel.getCell(tileX, tileY);
+        
+        verificarSiPulsamosBoton(px,py);
+        
+        verificarSiTocamosUnaTrampaNoActiva(px,py);
+        verificarSiTocamosUnaTrampaSiActiva(px,py);
         
         //VERIFICAMOS ZANAHORIAS
         verificarZanahorias(px,py);
@@ -900,6 +1245,29 @@ public class MiJuego extends GameCanvas implements Runnable {
         verificarSiNosotrosTomamosUnaLlave(px,py);
         
         verificarSiTocamosLaMeta(px,py);
+        
+        //utilizado para manejar la lógica de los TILES, con respecto al archivo PNG utilizado
+        /*
+         *tipoDeTilesPngUtilizado == 1, entonces está cargando tileset_normal.png
+         * tipoDeTilesPngUtilizado == 2, entonces está cargando tileset_invierno.png
+         *
+         * Esto mencionado es importante, porque hay TILES únicos que solo están disponibles en su 
+         * respectivo archivo PNG 
+         */
+        switch(tipoDeTilesPngUtilizado){
+            case 1:
+             verificarHuevos(px,py);
+            break;
+            case 2:
+            break;
+            default:
+                verificarHuevos(px,py);
+            break;
+        }
+        
+        
+        
+        
         
         if(verificarCandados(px,py)) return true;
         
@@ -911,6 +1279,83 @@ public class MiJuego extends GameCanvas implements Runnable {
         if (tile == TILE_CERCA) return true;
 
         if (tile == TILE_CANDADO_PLATEADO) return true;
+        
+        
+        boolean estoyDentroDelCamino = bobbyEncimaDeCamino && tileX == caminoX && tileY == caminoY;
+        
+        boolean entraPorIzquierda = px > x;
+        boolean entraPorDerecha  = px < x;
+        boolean entraPorArriba   = py > y;
+        boolean entraPorAbajo    = py < y;
+                
+        
+        int localX = (px + OFFSET_X) % TILE_SIZE;
+        int localY = (py + OFFSET_Y) % TILE_SIZE;
+        
+        System.out.println("local X: "+localX+", localY: "+localY);
+        
+        if(tile == TILE_CAMINO_HORIZONTAL){
+
+            if(entraPorArriba) return true;
+            if(entraPorAbajo) return true;
+        }
+        
+        if(tile == TILE_CAMINO_VERTICAL){
+
+           
+            if(entraPorIzquierda) return true;
+            if(entraPorDerecha) return true;
+        }
+        
+        
+        if(tile == TILE_CAMINO_ESQUINA_1){
+            if(estoyDentroDelCamino){
+                if(entraPorDerecha && localX<=5) return true;
+                if(entraPorAbajo && localY<=7) return true;
+            }else{
+                if(entraPorIzquierda) return true;
+                if(entraPorArriba) return true;  
+            }
+
+
+        }
+        
+        
+        if(tile == TILE_CAMINO_ESQUINA_2){
+            if(estoyDentroDelCamino){
+                if(entraPorIzquierda && localX>=5) return true;
+                if(entraPorAbajo && localY<=7) return true;
+            }else{
+                if(entraPorDerecha) return true;
+                if(entraPorArriba) return true;  
+            }
+            
+        }
+        
+        if(tile == TILE_CAMINO_ESQUINA_3){
+            if(estoyDentroDelCamino){
+                if(entraPorIzquierda && localX>=5) return true;
+                if(entraPorArriba && localY>=7) return true;
+            }else{
+                if(entraPorDerecha) return true;
+                if(entraPorAbajo) return true;  
+            }          
+            
+        }
+        
+        if(tile == TILE_CAMINO_ESQUINA_4){
+            if(estoyDentroDelCamino){
+                if(entraPorDerecha && localX<=5) return true;
+                if(entraPorArriba && localY>=7) return true;
+            }else{
+                if(entraPorIzquierda) return true;
+                if(entraPorAbajo) return true; 
+            }  
+            
+        }
+        
+        
+        verificarSiTocamosUnCamino(px, py);
 
         return false;
     }
@@ -977,13 +1422,207 @@ public class MiJuego extends GameCanvas implements Runnable {
     
     
     
+    
+    private void verificarSiTocamosUnCamino(int px, int py){
+
+        int tileX = (px + OFFSET_X) / TILE_SIZE;
+        int tileY = (py + OFFSET_Y) / TILE_SIZE;
+
+        int tile = nivel.getCell(tileX, tileY);
+        
+        int localX = (px + OFFSET_X) % TILE_SIZE;
+        int localY = (py + OFFSET_Y) % TILE_SIZE;
+        
+        boolean entraPorIzquierda = px > x;
+        boolean entraPorDerecha  = px < x;
+        boolean entraPorArriba   = py > y;
+        boolean entraPorAbajo    = py < y;
+
+        // Bobby acaba de entrar a un caminito
+        if(esCamino(tile) && !bobbyEncimaDeCamino){
+            
+            if(entraPorIzquierda || entraPorDerecha){
+                System.out.println("localX=" + localX);
+            }
+            if(entraPorArriba || entraPorAbajo){
+                System.out.println(" localY=" + localY);     
+            }
+            
+            if(entraPorIzquierda){
+                if(localX<=0){
+                    direccionEntradaCamino = ENTRA_IZQUIERDA;
+                    System.out.println("Por izquierda");
+                    detectarQueBobbyEstaSobreElCamino(tileX,tileY);
+                }
+            }
+            
+            if(entraPorDerecha){
+                if(localX<=10){
+                    direccionEntradaCamino = ENTRA_DERECHA;
+                    System.out.println("Por derecha");
+                    detectarQueBobbyEstaSobreElCamino(tileX,tileY);
+                }
+            }
+            
+            if(entraPorAbajo){
+                if(localY<=14){
+                    direccionEntradaCamino = ENTRA_ABAJO;
+                    System.out.println("Por abajo");
+                    detectarQueBobbyEstaSobreElCamino(tileX,tileY);
+                }
+            }
+            
+            if(entraPorArriba){
+                if(localY>=0){
+                    direccionEntradaCamino = ENTRA_ARRIBA;
+                    System.out.println("Por arriba");
+                    detectarQueBobbyEstaSobreElCamino(tileX,tileY);
+                }
+            }
+           
+            
+
+                
+                         
+                
+        }
+
+        // Bobby estaba sobre un caminito y ya salió
+        if(bobbyEncimaDeCamino){
+
+            if(tileX != caminoX || tileY != caminoY){
+
+                int tileOriginal = nivel.getCell(caminoX, caminoY);
+                
+                ultimoCaminoConvertido = obtenerSiguienteCamino(tileOriginal);
+                
+                nivel.setCell(
+                    caminoX,
+                    caminoY,
+                    obtenerSiguienteCamino(tileOriginal)
+                );
+                System.out.println("YA NO ESTOY EN EL CAMINO");
+                bobbyEncimaDeCamino = false;
+
+                caminoX = -1;
+                caminoY = -1;
+            }
+        }
+    }
+    
+    private void detectarQueBobbyEstaSobreElCamino(int tileX, int tileY){
+         System.out.println("Bobby encima del camino..");
+
+                bobbyEncimaDeCamino = true;
+
+                caminoX = tileX;
+                caminoY = tileY; 
+    }
+    
+    private boolean esCamino(int tile){
+
+        return tile == TILE_CAMINO_HORIZONTAL
+            || tile == TILE_CAMINO_VERTICAL
+            || tile == TILE_CAMINO_ESQUINA_1
+            || tile == TILE_CAMINO_ESQUINA_2
+            || tile == TILE_CAMINO_ESQUINA_3
+            || tile == TILE_CAMINO_ESQUINA_4;
+    }
+       
+    
+    
+    
+    
+    
+    private int obtenerSiguienteCamino(int tile){
+
+        switch(tile){
+
+            case TILE_CAMINO_HORIZONTAL:
+                return TILE_CAMINO_VERTICAL;
+
+            case TILE_CAMINO_VERTICAL:
+                return TILE_CAMINO_HORIZONTAL;
+
+            case TILE_CAMINO_ESQUINA_1:
+                return TILE_CAMINO_ESQUINA_2;
+
+            case TILE_CAMINO_ESQUINA_2:
+                return TILE_CAMINO_ESQUINA_3;
+
+            case TILE_CAMINO_ESQUINA_3:
+                return TILE_CAMINO_ESQUINA_4;
+
+            case TILE_CAMINO_ESQUINA_4:
+                return TILE_CAMINO_ESQUINA_1;
+        }
+
+        return tile;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void cambiarTodosLosCaminos(){
+
+        for(int y = 0; y < altoDelNivel; y++){
+
+            for(int x = 0; x < anchoDelNivel; x++){
+
+                int tile = nivel.getCell(x, y);
+
+                if(esCamino(tile)){
+
+                    nivel.setCell(
+                        x,
+                        y,
+                        obtenerSiguienteCamino(tile)
+                    );
+                }
+
+                if(tile == TILE_BOTON_PARA_NO_PULSAR){
+
+                    nivel.setCell(
+                        x,
+                        y,
+                        TILE_BOTON_PARA_PULSAR
+                    );
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // =========================================
     // DIBUJAR
     // =========================================
     
     private void dibujarColisionDebug(int px, int py) {
-        System.out.println("x es: "+ x+"\nand y es: "+y);
+        //System.out.println("x es: "+ x+"\nand y es: "+y);
         int tileX = (px+OFFSET_X) / TILE_SIZE;
         //int tileY = (py+OFFSET_Y) / TILE_SIZE;
         int tileY = (py+OFFSET_Y) / TILE_SIZE;
@@ -1099,19 +1738,37 @@ public class MiJuego extends GameCanvas implements Runnable {
 
             g.setColor(colorTexto);
 
-            g.drawString(
-                textoReiniciarNivel,
-                getWidth() / 2,
-                getHeight() / 2 - 10,
-                Graphics.HCENTER | Graphics.TOP
-            );
+            if(this.todasLasZanahoriasRecogidas && this.todosLosHuevosDejados){
+                g.drawString(
+                    textoReiniciarNivel,
+                    getWidth() / 2,
+                    getHeight() / 2 - 10,
+                    Graphics.HCENTER | Graphics.TOP
+                );
 
-            g.drawString(
-                textoReiniciarNivel1,
-                getWidth() / 2,
-                getHeight() / 2 + 10,
-                Graphics.HCENTER | Graphics.TOP
-            );
+                g.drawString(
+                    textoReiniciarNivel1,
+                    getWidth() / 2,
+                    getHeight() / 2 + 10,
+                    Graphics.HCENTER | Graphics.TOP
+                );
+            }
+            
+            if(this.gameOver){
+                g.drawString(
+                    textoReiniciarNivel2,
+                    getWidth() / 2,
+                    getHeight() / 2 - 10,
+                    Graphics.HCENTER | Graphics.TOP
+                );
+
+                g.drawString(
+                    textoReiniciarNivel3,
+                    getWidth() / 2,
+                    getHeight() / 2 + 10,
+                    Graphics.HCENTER | Graphics.TOP
+                );
+            }
 
             return;
         }
@@ -1129,22 +1786,69 @@ public class MiJuego extends GameCanvas implements Runnable {
         // RESTAURAR
         g.translate(camX, camY);
         
-        g.setColor(colorTexto);
+        
+        int yTexto = 0;
 
-        g.drawString(
-            textoObjetoPorRecoger+totalZanahoriasRecogerEnNivel,
-            0,
-            0,
-            Graphics.TOP | Graphics.LEFT
-        );
+        if (mostrarMensajeCantidadZanahoriasPorRecoger) {
+            g.setColor(colorTexto);
+
+            g.drawImage(
+                imagencitaObjetoPorRecoger,
+                X_IMAGEN,
+                yTexto,
+                Graphics.TOP | Graphics.LEFT
+            );
+
+            g.drawString(
+                "" + totalZanahoriasRecogerEnNivel,
+                X_NUMERO,
+                yTexto,
+                Graphics.TOP | Graphics.LEFT
+            );
+
+            yTexto += Math.max(
+                imagencitaObjetoPorRecoger.getHeight(),
+                g.getFont().getHeight()
+            );
+        }
+        
+        //Si el tipo de tiles PNG es el (tileset_normal), indica que si es posible que exista huevos por recoger
+        if (this.tipoDeTilesPngUtilizado == 1) {
+            if (mostrarMensajeCantidadHuevosPorDejar) {
+                g.setColor(colorTexto);
+
+                g.drawImage(
+                    imagencitaHuevo,
+                    X_IMAGEN,
+                    yTexto,
+                    Graphics.TOP | Graphics.LEFT
+                );
+
+                g.drawString(
+                    "" + totalHuevosDejarEnNivel,
+                    X_NUMERO,
+                    yTexto,
+                    Graphics.TOP | Graphics.LEFT
+                );
+
+                yTexto += Math.max(
+                    imagencitaHuevo.getHeight(),
+                    g.getFont().getHeight()
+                );
+            }
+        }
+        
+        
         
         verificarSiTenemosCiertaLlave();
-
+        
+        
+        
          if(modoAparecer || !desaparecerMensajeNivel){
              
             Font fuente = Font.getFont(
                 Font.FACE_SYSTEM,
-                Font.STYLE_PLAIN,
+                Font.STYLE_BOLD,
                 Font.SIZE_LARGE
             );
 

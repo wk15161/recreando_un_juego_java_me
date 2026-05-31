@@ -10,13 +10,6 @@
                 <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vtileset"/>
                 <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/tileset.png"/>
             </Component>
-            <Component componentID="22" typeID="Corg.netbeans.modules.vmd.game.model.TiledLayer">
-                <Property name="layercd.prop.name" typeID="Pjava.lang.String" value="Vnivel_1"/>
-                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R19"/>
-                <Property name="layercd.prop.tile.width" typeID="Pint" value="V16"/>
-                <Property name="layercd.prop.tile.height" typeID="Pint" value="V16"/>
-                <Property name="tiledlayercd.prop.tiles" typeID="P#TiledLayerTiles" value="V20,20,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,1,1,1,1,1,19,19,19,19,19,14,19,19,19,19,19,19,3,1,1,1,1,1,1,1,19,19,19,19,19,14,19,19,19,19,22,19,3,1,1,1,1,1,1,1,19,19,19,19,19,10,10,19,19,19,19,19,3,1,1,1,1,1,1,1,19,19,19,19,19,10,10,19,20,20,20,19,3,1,1,1,1,1,1,1,45,19,19,19,19,10,10,19,20,20,20,19,3,1,1,1,1,1,1,1,19,19,19,19,19,10,10,19,20,20,20,19,3,1,1,1,1,1,1,1,19,19,19,19,19,10,10,19,19,19,19,19,3,1,1,1,1,1,1,1,19,19,19,19,19,34,19,19,19,19,33,19,3,1,1,1,1,1,1,1,19,19,19,19,19,14,19,19,19,19,19,19,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"/>
-            </Component>
             <Component componentID="25" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
                 <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vbobby_right"/>
                 <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/bobby_right.png"/>
@@ -162,14 +155,61 @@
             </Component>
             <Component componentID="45" typeID="Corg.netbeans.modules.vmd.game.model.TiledLayer">
                 <Property name="layercd.prop.name" typeID="Pjava.lang.String" value="Vnivel_2"/>
-                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R19"/>
+                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R58"/>
                 <Property name="layercd.prop.tile.width" typeID="Pint" value="V16"/>
                 <Property name="layercd.prop.tile.height" typeID="Pint" value="V16"/>
-                <Property name="tiledlayercd.prop.tiles" typeID="P#TiledLayerTiles" value="V20,22,1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,2,19,19,19,19,19,19,19,19,19,14,19,19,19,19,35,19,19,19,3,1,1,2,19,19,19,11,11,11,19,19,19,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,12,12,12,19,19,19,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,14,19,19,19,19,19,19,19,19,22,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,19,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,3,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,3,1,1,2,15,13,13,13,13,13,13,13,34,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,20,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,15,16,36,11,11,19,19,19,19,3,1,1,2,19,19,19,19,19,20,19,19,19,19,20,19,12,12,14,19,19,19,3,1,1,2,19,19,20,19,20,20,19,19,19,19,20,20,19,19,14,19,19,19,3,1,1,2,19,19,20,20,20,19,19,19,19,19,19,20,20,20,14,19,19,19,3,1,1,2,19,19,19,19,20,20,20,20,20,20,20,20,19,19,14,19,19,19,3,1,1,45,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,1,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,33,3,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1"/>
+                <Property name="tiledlayercd.prop.tiles" typeID="P#TiledLayerTiles" value="V20,22,1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,2,19,19,19,19,19,19,19,19,19,14,19,19,19,19,35,19,19,19,3,1,1,2,19,19,19,11,11,11,19,19,19,31,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,12,12,12,19,19,19,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,14,19,19,19,19,19,19,19,19,22,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,19,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,3,1,1,2,19,19,19,20,20,20,20,19,19,14,20,20,20,20,19,19,19,19,3,1,1,2,15,13,13,13,13,13,13,13,34,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,1,20,14,19,19,19,19,19,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,15,16,36,11,11,19,19,19,19,3,1,1,2,19,19,19,19,19,20,19,19,19,19,20,19,12,12,14,19,19,19,3,1,1,2,19,19,20,19,20,20,19,19,19,19,20,20,19,19,14,19,19,19,3,1,1,2,19,19,20,20,20,19,19,19,19,19,19,20,20,20,14,19,19,19,3,1,1,2,19,19,19,19,20,20,20,20,20,20,20,20,19,19,14,19,19,19,3,1,1,45,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,2,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,19,3,1,1,1,19,19,19,19,19,19,19,19,19,19,19,19,19,19,14,19,19,33,3,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1"/>
+            </Component>
+            <Component componentID="50" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
+                <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vbobby_death"/>
+                <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/bobby_death.png"/>
             </Component>
             <Component componentID="49" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
                 <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vhud"/>
                 <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/hud.png"/>
+            </Component>
+            <Component componentID="55" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
+                <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vtileset___copia"/>
+                <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/tileset - copia.png"/>
+            </Component>
+            <Component componentID="53" typeID="Corg.netbeans.modules.vmd.game.model.Sprite">
+                <Property name="layercd.prop.name" typeID="Pjava.lang.String" value="Vbobby_muerto"/>
+                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R50"/>
+                <Property name="layercd.prop.tile.width" typeID="Pint" value="V22"/>
+                <Property name="layercd.prop.tile.height" typeID="Pint" value="V27"/>
+                <Property name="sequencecontainer.prop.defaultsequence" typeID="Corg.netbeans.modules.vmd.game.model.Sequence" value="R54"/>
+                <Property name="sequencecontainer.prop.sequences" typeID="1Corg.netbeans.modules.vmd.game.model.Sequence" value="A1:3_R54"/>
+                <Component componentID="54" typeID="Corg.netbeans.modules.vmd.game.model.Sequence">
+                    <Property name="sequncecd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R50"/>
+                    <Property name="sequncecd.prop.name" typeID="Pjava.lang.String" value="Vbobby_muertoseq002"/>
+                    <Property name="sequncecd.prop.framems" typeID="Pint" value="V100"/>
+                    <Property name="sequncecd.prop.frames" typeID="P#SequenceFrames" value="V13,0,1,2,3,4,0,1,2,3,4,5,6,7,"/>
+                    <Property name="sequncecd.prop.frame.width" typeID="Pint" value="V22"/>
+                    <Property name="sequncecd.prop.frame.height" typeID="Pint" value="V27"/>
+                    <Property name="sequncecd.prop.zero.based.index" typeID="Pboolean" value="Vtrue"/>
+                </Component>
+            </Component>
+            <Component componentID="59" typeID="Corg.netbeans.modules.vmd.game.model.TiledLayer">
+                <Property name="layercd.prop.name" typeID="Pjava.lang.String" value="Vnivel_3"/>
+                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R58"/>
+                <Property name="layercd.prop.tile.width" typeID="Pint" value="V16"/>
+                <Property name="layercd.prop.tile.height" typeID="Pint" value="V16"/>
+                <Property name="tiledlayercd.prop.tiles" typeID="P#TiledLayerTiles" value="V20,23,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,11,12,12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,12,12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,12,1,1,22,19,19,19,19,19,36,31,31,31,37,1,1,11,11,11,11,11,1,1,1,1,1,19,19,19,19,19,19,13,13,13,13,34,1,1,12,12,12,12,12,1,1,1,1,1,19,19,19,19,19,19,19,19,19,19,19,1,1,1,1,1,1,1,1,1,1,1,1,19,8,11,9,19,19,8,11,9,19,19,1,1,1,19,33,1,1,1,1,1,1,1,19,7,12,6,19,19,7,12,6,19,19,1,1,1,31,31,1,1,1,1,1,1,1,19,19,19,19,19,19,19,19,19,19,19,19,1,1,31,31,1,1,1,1,1,1,1,19,19,19,19,19,19,19,19,19,19,19,19,1,1,31,31,1,1,1,1,11,1,1,19,19,19,19,19,19,19,19,19,19,19,19,31,31,31,31,19,11,1,1,12,1,1,19,19,19,19,19,19,19,19,19,19,19,19,31,31,31,19,19,12,1,1,1,1,1,19,19,19,19,19,19,19,19,19,19,19,1,1,31,31,1,1,1,1,1,1,1,1,1,1,1,19,1,1,19,19,19,19,1,1,1,31,35,1,1,1,1,1,1,1,1,20,20,20,20,20,1,1,1,1,38,1,1,1,1,1,1,1,1,1,1,1,1,1,20,20,20,20,20,1,1,1,1,19,1,1,1,1,1,11,11,11,1,1,1,1,1,20,20,20,20,20,1,1,1,1,19,19,19,45,1,1,12,12,12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"/>
+            </Component>
+            <Component componentID="58" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
+                <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vtileset_invierno"/>
+                <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/tileset_invierno.png"/>
+            </Component>
+            <Component componentID="57" typeID="Corg.netbeans.modules.vmd.game.model.TiledLayer">
+                <Property name="layercd.prop.name" typeID="Pjava.lang.String" value="Vnivel_1"/>
+                <Property name="layercd.prop.imageresource" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource" value="R56"/>
+                <Property name="layercd.prop.tile.width" typeID="Pint" value="V16"/>
+                <Property name="layercd.prop.tile.height" typeID="Pint" value="V16"/>
+                <Property name="tiledlayercd.prop.tiles" typeID="P#TiledLayerTiles" value="V20,20,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,19,19,19,19,19,14,19,31,31,19,19,1,1,1,1,1,1,1,1,1,19,19,19,24,19,38,19,31,31,19,22,19,1,1,1,1,1,1,1,1,19,19,19,32,19,10,10,19,19,19,19,19,1,1,1,1,1,1,1,1,24,19,46,46,19,10,10,19,20,20,20,23,1,1,1,1,1,1,1,1,19,19,46,46,19,10,10,19,20,20,20,24,1,1,1,1,1,1,1,1,19,19,46,46,19,10,10,19,20,20,20,19,1,1,1,1,1,1,1,1,19,19,19,32,19,10,10,28,19,19,19,19,1,1,1,1,1,1,1,1,19,19,19,25,25,29,25,30,19,19,45,19,1,1,1,1,1,31,31,31,19,19,19,19,19,14,28,27,19,19,19,19,1,1,1,1,1,31,31,31,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,37,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"/>
+            </Component>
+            <Component componentID="56" typeID="Corg.netbeans.modules.vmd.game.model.ImageResource">
+                <Property name="imageresourcecd.prop.name" typeID="Pjava.lang.String" value="Vtileset_normal"/>
+                <Property name="imageresourcecd.prop.imagepath" typeID="Pjava.lang.String" value="V/tileset_normal.png"/>
             </Component>
         </Component>
     </Document>

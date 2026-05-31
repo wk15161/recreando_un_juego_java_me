@@ -18,7 +18,6 @@ public class GameDesign {
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Image platform_tiles;
     private Image tileset;
-    private TiledLayer nivel_1;
     private Image bobby_right;
     private Sprite bobby_derecha;
     public int bobby_derechaseq001Delay = 40;
@@ -47,9 +46,28 @@ public class GameDesign {
     public int bobby_metaseq001Delay = 30;
     public int[] bobby_metaseq001 = {0, 1, 2, 3};
     private TiledLayer nivel_2;
+    private Image bobby_death;
     private Image hud;
+    private Image tileset___copia;
+    private Sprite bobby_muerto;
+    public int bobby_muertoseq002Delay = 100;
+    public int[] bobby_muertoseq002 = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 5, 6, 7};
+    private TiledLayer nivel_3;
+    private Image tileset_invierno;
+    private TiledLayer nivel_1;
+    private Image tileset_normal;
     //</editor-fold>//GEN-END:|fields|0|
-
+    private String nombreTilesActual;
+    private int tipoTilesActual;
+    
+    public String getNombreTilesActual() {
+        return nombreTilesActual;
+    }
+    
+    public int getTipoTilesActual() {
+        return tipoTilesActual;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc=" Generated Methods ">//GEN-BEGIN:|methods|0|
     //</editor-fold>//GEN-END:|methods|0|
 
@@ -81,43 +99,7 @@ public class GameDesign {
 
 
 
-    public TiledLayer getNivel_1() throws java.io.IOException {//GEN-BEGIN:|22-getter|0|22-preInit
-        if (nivel_1 == null) {//GEN-END:|22-getter|0|22-preInit
-            // write pre-init user code here
-            nivel_1 = new TiledLayer(20, 20, getTileset(), 16, 16);//GEN-BEGIN:|22-getter|1|22-midInit
-            int[][] tiles = {
-                { 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 22, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 10, 10, 19, 19, 19, 19, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 10, 10, 19, 20, 20, 20, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 45, 19, 19, 19, 19, 10, 10, 19, 20, 20, 20, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 10, 10, 19, 20, 20, 20, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 10, 10, 19, 19, 19, 19, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 34, 19, 19, 19, 19, 33, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 3, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-            };//GEN-END:|22-getter|1|22-midInit
-            // write mid-init user code here
-            for (int row = 0; row < 20; row++) {//GEN-BEGIN:|22-getter|2|22-postInit
-                for (int col = 0; col < 20; col++) {
-                    nivel_1.setCell(col, row, tiles[row][col]);
-                }
-            }
-        }//GEN-END:|22-getter|2|22-postInit
-        // write post-init user code here
-        return nivel_1;//GEN-BEGIN:|22-getter|3|
-    }
-//GEN-END:|22-getter|3|
+
 
 
 
@@ -261,18 +243,18 @@ public class GameDesign {
     public TiledLayer getNivel_2() throws java.io.IOException {//GEN-BEGIN:|45-getter|0|45-preInit
         if (nivel_2 == null) {//GEN-END:|45-getter|0|45-preInit
             // write pre-init user code here
-            nivel_2 = new TiledLayer(22, 20, getTileset(), 16, 16);//GEN-BEGIN:|45-getter|1|45-midInit
+            nivel_2 = new TiledLayer(22, 20, getTileset_invierno(), 16, 16);//GEN-BEGIN:|45-getter|1|45-midInit
             int[][] tiles = {
                 { 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1 },
                 { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 35, 19, 19, 19, 3, 1 },
-                { 1, 2, 19, 19, 19, 11, 11, 11, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 11, 11, 11, 19, 19, 19, 31, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 19, 12, 12, 12, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 14, 19, 19, 19, 19, 19, 19, 19, 19, 22, 1 },
                 { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 19, 1 },
                 { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 19, 20, 20, 20, 20, 19, 19, 14, 20, 20, 20, 20, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 15, 13, 13, 13, 13, 13, 13, 13, 34, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
-                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 20, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
+                { 1, 2, 19, 19, 19, 19, 19, 19, 19, 1, 20, 14, 19, 19, 19, 19, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 19, 19, 19, 19, 19, 19, 19, 15, 16, 36, 11, 11, 19, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 19, 19, 19, 20, 19, 19, 19, 19, 20, 19, 12, 12, 14, 19, 19, 19, 3, 1 },
                 { 1, 2, 19, 19, 20, 19, 20, 20, 19, 19, 19, 19, 20, 20, 19, 19, 14, 19, 19, 19, 3, 1 },
@@ -308,4 +290,138 @@ public class GameDesign {
     }
 //GEN-END:|49-getter|2|
 
+    public Image getBobby_death() throws java.io.IOException {//GEN-BEGIN:|50-getter|0|50-preInit
+        if (bobby_death == null) {//GEN-END:|50-getter|0|50-preInit
+            // write pre-init user code here
+            bobby_death = Image.createImage("/bobby_death.png");//GEN-BEGIN:|50-getter|1|50-postInit
+        }//GEN-END:|50-getter|1|50-postInit
+        // write post-init user code here
+        return this.bobby_death;//GEN-BEGIN:|50-getter|2|
+    }
+//GEN-END:|50-getter|2|
+
+    public Sprite getBobby_muerto() throws java.io.IOException {//GEN-BEGIN:|53-getter|0|53-preInit
+        if (bobby_muerto == null) {//GEN-END:|53-getter|0|53-preInit
+            // write pre-init user code here
+            bobby_muerto = new Sprite(getBobby_death(), 22, 27);//GEN-BEGIN:|53-getter|1|53-postInit
+            bobby_muerto.setFrameSequence(bobby_muertoseq002);//GEN-END:|53-getter|1|53-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|53-getter|2|
+        return bobby_muerto;
+    }
+//GEN-END:|53-getter|2|
+
+    public Image getTileset___copia() throws java.io.IOException {//GEN-BEGIN:|55-getter|0|55-preInit
+        if (tileset___copia == null) {//GEN-END:|55-getter|0|55-preInit
+            // write pre-init user code here
+            tileset___copia = Image.createImage("/tileset - copia.png");//GEN-BEGIN:|55-getter|1|55-postInit
+        }//GEN-END:|55-getter|1|55-postInit
+        // write post-init user code here
+        return this.tileset___copia;//GEN-BEGIN:|55-getter|2|
+    }
+//GEN-END:|55-getter|2|
+
+    public Image getTileset_normal() throws java.io.IOException {//GEN-BEGIN:|56-getter|0|56-preInit
+        if (tileset_normal == null) {//GEN-END:|56-getter|0|56-preInit
+            // write pre-init user code here
+            tipoTilesActual = 1;
+            nombreTilesActual = "tileset_normal.png";
+            tileset_normal = Image.createImage("/tileset_normal.png");//GEN-BEGIN:|56-getter|1|56-postInit
+        }//GEN-END:|56-getter|1|56-postInit
+        // write post-init user code here
+        return this.tileset_normal;//GEN-BEGIN:|56-getter|2|
+    }
+//GEN-END:|56-getter|2|
+
+    public TiledLayer getNivel_1() throws java.io.IOException {//GEN-BEGIN:|57-getter|0|57-preInit
+        if (nivel_1 == null) {//GEN-END:|57-getter|0|57-preInit
+            // write pre-init user code here
+            nivel_1 = new TiledLayer(20, 20, getTileset_normal(), 16, 16);//GEN-BEGIN:|57-getter|1|57-midInit
+            int[][] tiles = {
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 14, 19, 31, 31, 19, 19, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 24, 19, 38, 19, 31, 31, 19, 22, 19, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 32, 19, 10, 10, 19, 19, 19, 19, 19, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 24, 19, 46, 46, 19, 10, 10, 19, 20, 20, 20, 23, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 46, 46, 19, 10, 10, 19, 20, 20, 20, 24, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 46, 46, 19, 10, 10, 19, 20, 20, 20, 19, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 32, 19, 10, 10, 28, 19, 19, 19, 19, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 25, 25, 29, 25, 30, 19, 19, 45, 19, 1, 1, 1, 1 },
+                { 1, 31, 31, 31, 19, 19, 19, 19, 19, 14, 28, 27, 19, 19, 19, 19, 1, 1, 1, 1 },
+                { 1, 31, 31, 31, 31, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 37, 31, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+            };//GEN-END:|57-getter|1|57-midInit
+            // write mid-init user code here
+            for (int row = 0; row < 20; row++) {//GEN-BEGIN:|57-getter|2|57-postInit
+                for (int col = 0; col < 20; col++) {
+                    nivel_1.setCell(col, row, tiles[row][col]);
+                }
+            }
+        }//GEN-END:|57-getter|2|57-postInit
+        // write post-init user code here
+        return nivel_1;//GEN-BEGIN:|57-getter|3|
+    }
+//GEN-END:|57-getter|3|
+
+    public Image getTileset_invierno() throws java.io.IOException {//GEN-BEGIN:|58-getter|0|58-preInit
+        if (tileset_invierno == null) {//GEN-END:|58-getter|0|58-preInit
+            // write pre-init user code here
+            tipoTilesActual = 2;
+            nombreTilesActual ="tileset_invierno.png";
+            tileset_invierno = Image.createImage("/tileset_invierno.png");//GEN-BEGIN:|58-getter|1|58-postInit
+        }//GEN-END:|58-getter|1|58-postInit
+        // write post-init user code here
+        return this.tileset_invierno;//GEN-BEGIN:|58-getter|2|
+    }
+//GEN-END:|58-getter|2|
+
+    public TiledLayer getNivel_3() throws java.io.IOException {//GEN-BEGIN:|59-getter|0|59-preInit
+        if (nivel_3 == null) {//GEN-END:|59-getter|0|59-preInit
+            // write pre-init user code here
+            nivel_3 = new TiledLayer(23, 20, getTileset_invierno(), 16, 16);//GEN-BEGIN:|59-getter|1|59-midInit
+            int[][] tiles = {
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 11, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 11, 11, 12, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 11, 12, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 12, 1, 1, 22, 19, 19, 19, 19, 19, 36, 31, 31, 31, 37, 1, 1, 11, 11, 11, 11, 11, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 19, 13, 13, 13, 13, 34, 1, 1, 12, 12, 12, 12, 12, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 8, 11, 9, 19, 19, 8, 11, 9, 19, 19, 1, 1, 1, 19, 33, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 7, 12, 6, 19, 19, 7, 12, 6, 19, 19, 1, 1, 1, 31, 31, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 1, 1, 31, 31, 1, 1, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 1, 1, 31, 31, 1, 1, 1 },
+                { 1, 11, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 31, 31, 31, 31, 19, 11, 1 },
+                { 1, 12, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 31, 31, 31, 19, 19, 12, 1 },
+                { 1, 1, 1, 1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 1, 1, 31, 31, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 19, 1, 1, 19, 19, 19, 19, 1, 1, 1, 31, 35, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 20, 20, 20, 20, 20, 1, 1, 1, 1, 38, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 20, 20, 20, 20, 20, 1, 1, 1, 1, 19, 1, 1, 1, 1, 1, 11, 11, 11, 1 },
+                { 1, 1, 1, 1, 20, 20, 20, 20, 20, 1, 1, 1, 1, 19, 19, 19, 45, 1, 1, 12, 12, 12, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+            };//GEN-END:|59-getter|1|59-midInit
+            // write mid-init user code here
+            for (int row = 0; row < 20; row++) {//GEN-BEGIN:|59-getter|2|59-postInit
+                for (int col = 0; col < 23; col++) {
+                    nivel_3.setCell(col, row, tiles[row][col]);
+                }
+            }
+        }//GEN-END:|59-getter|2|59-postInit
+        // write post-init user code here
+        return nivel_3;//GEN-BEGIN:|59-getter|3|
+    }
+//GEN-END:|59-getter|3|
+
+    
+    
+    
 }
