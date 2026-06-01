@@ -45,7 +45,7 @@ public class MiJuego extends GameCanvas implements Runnable {
     int trampaY;
     
     private int nivelSiguiente=0;
-    private static final int totalNiveles = 3;
+    private static final int totalNiveles = 4;
     
     private String textoObjetoPorRecoger;
     private String textoObjetoPorDejar;
@@ -413,6 +413,9 @@ public class MiJuego extends GameCanvas implements Runnable {
                 break;
                 case 3:
                     nivel = gd.getNivel_3();
+                break;
+                case 4:
+                    nivel = gd.getNivel_4();
                 break;
             }
             
